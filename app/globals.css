@@ -1,0 +1,264 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================================================================
+   GitHub Repository Lore Generator — "The Codex" design system
+   Dark = midnight ink manuscript. Light = aged parchment.
+   =========================================================================== */
+
+@layer base {
+  :root {
+    /* ---- Light: Parchment ---- */
+    --background: 40 44% 93%;
+    --foreground: 28 26% 15%;
+
+    --card: 40 48% 96%;
+    --card-foreground: 28 26% 15%;
+
+    --muted: 38 30% 87%;
+    --muted-foreground: 30 14% 38%;
+
+    --primary: 32 68% 40%;
+    --primary-foreground: 40 50% 97%;
+
+    --secondary: 38 32% 88%;
+    --secondary-foreground: 28 28% 20%;
+
+    --accent: 36 60% 50%;
+    --accent-foreground: 30 30% 12%;
+
+    --border: 34 26% 78%;
+    --input: 34 26% 78%;
+    --ring: 32 68% 44%;
+
+    --gold: 34 72% 42%;
+    --oxblood: 2 62% 42%;
+    --verdigris: 172 42% 30%;
+    --ink: 28 26% 15%;
+    --parchment: 40 44% 93%;
+
+    --radius: 0.5rem;
+
+    --grain-opacity: 0.4;
+    --vignette: 30 30% 70%;
+  }
+
+  .dark {
+    /* ---- Dark: Midnight Ink ---- */
+    --background: 32 22% 6%;
+    --foreground: 40 34% 88%;
+
+    --card: 32 20% 9%;
+    --card-foreground: 40 34% 88%;
+
+    --muted: 32 14% 14%;
+    --muted-foreground: 38 18% 60%;
+
+    --primary: 40 74% 62%;
+    --primary-foreground: 32 32% 8%;
+
+    --secondary: 32 14% 15%;
+    --secondary-foreground: 40 30% 86%;
+
+    --accent: 40 70% 60%;
+    --accent-foreground: 32 32% 8%;
+
+    --border: 36 18% 20%;
+    --input: 36 16% 22%;
+    --ring: 40 74% 58%;
+
+    --gold: 40 76% 62%;
+    --oxblood: 4 62% 52%;
+    --verdigris: 168 40% 50%;
+    --ink: 32 22% 6%;
+    --parchment: 40 34% 88%;
+
+    --grain-opacity: 0.55;
+    --vignette: 32 40% 2%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings:
+      'kern' 1,
+      'liga' 1,
+      'calt' 1;
+    text-rendering: optimizeLegibility;
+    background-image:
+      radial-gradient(
+        120% 80% at 50% -10%,
+        hsl(var(--gold) / 0.07),
+        transparent 60%
+      ),
+      radial-gradient(
+        100% 60% at 100% 110%,
+        hsl(var(--verdigris) / 0.05),
+        transparent 55%
+      );
+    background-attachment: fixed;
+  }
+
+  /* Fine film-grain / paper texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  ::selection {
+    background: hsl(var(--gold) / 0.28);
+    color: hsl(var(--foreground));
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border: 3px solid hsl(var(--background));
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.6);
+  }
+}
+
+@layer components {
+  /* Hairline rule with a centred ornament, used between sections */
+  .rule-ornament {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: hsl(var(--muted-foreground));
+  }
+  .rule-ornament::before,
+  .rule-ornament::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: linear-gradient(
+      to var(--dir, right),
+      transparent,
+      hsl(var(--border))
+    );
+  }
+
+  /* Gold foil gradient text */
+  .text-foil {
+    background: linear-gradient(
+      100deg,
+      hsl(var(--gold)) 0%,
+      hsl(var(--foreground)) 45%,
+      hsl(var(--gold)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Eyebrow / small-caps label */
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.28em] text-muted-foreground;
+  }
+
+  /* Card with manuscript inner stroke */
+  .codex-panel {
+    @apply rounded-lg border bg-card/70 backdrop-blur-sm;
+    box-shadow: var(--tw-shadow, 0 0 0 transparent);
+  }
+
+  /* Narrative prose with a manuscript drop-cap */
+  .lore-prose {
+    @apply font-serif text-[1.075rem] leading-[1.85] text-foreground/90;
+  }
+  .lore-prose p {
+    margin-bottom: 1.15em;
+    hanging-punctuation: first;
+  }
+  .lore-prose.has-dropcap > p:first-of-type::first-letter {
+    font-family: var(--font-display), serif;
+    float: left;
+    font-size: 3.6em;
+    line-height: 0.72;
+    padding: 0.06em 0.12em 0 0;
+    margin-right: 0.02em;
+    color: hsl(var(--gold));
+    font-weight: 600;
+  }
+  .lore-prose em {
+    color: hsl(var(--gold));
+    font-style: italic;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 will-change-transform;
+  }
+  .hover-lift:hover {
+    transform: translateY(-3px);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  /* shimmering skeleton sweep */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--foreground) / 0.06),
+      transparent
+    );
+    animation: shimmer 1.8s infinite;
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(80% 60% at 50% 0%, black, transparent 75%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
