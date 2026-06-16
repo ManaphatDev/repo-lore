@@ -195,7 +195,9 @@ export type NarrativeMode =
   | 'fantasy'
   | 'scifi'
   | 'corporate'
-  | 'meme';
+  | 'meme'
+  | 'noir'
+  | 'news';
 
 export interface LoreChapter {
   number: number;

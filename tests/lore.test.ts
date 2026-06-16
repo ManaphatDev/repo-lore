@@ -13,12 +13,14 @@ const MODES: NarrativeMode[] = [
   'scifi',
   'corporate',
   'meme',
+  'noir',
+  'news',
 ];
 
 describe('generateAllLore', () => {
   const all = generateAllLore(analysis);
 
-  it('produces all five narrative voices', () => {
+  it('produces all seven narrative voices', () => {
     expect(Object.keys(all).sort()).toEqual([...MODES].sort());
   });
 

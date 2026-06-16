@@ -39,5 +39,7 @@ export function generateAllLore(
     scifi: generateLore(analysis, 'scifi'),
     corporate: generateLore(analysis, 'corporate'),
     meme: generateLore(analysis, 'meme'),
+    noir: generateLore(analysis, 'noir'),
+    news: generateLore(analysis, 'news'),
   };
 }

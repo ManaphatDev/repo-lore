@@ -6,7 +6,9 @@ import {
   Clapperboard,
   Laugh,
   Loader2,
+  Newspaper,
   Rocket,
+  Search,
   Sparkles,
   type LucideIcon,
 } from 'lucide-react';
@@ -26,6 +28,8 @@ const MODE_ICON: Record<string, LucideIcon> = {
   Rocket,
   Briefcase,
   Laugh,
+  Search,
+  Newspaper,
 };
 
 function reasonMessage(t: Dictionary, reason?: string): string {

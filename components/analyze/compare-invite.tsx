@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Swords } from 'lucide-react';
 
 import { parseRepoInput } from '@/lib/parse-repo';
+import { QUICK_PICKS } from '@/lib/examples';
+import { getRecent } from '@/lib/recent';
 import { Button } from '@/components/ui/button';
 import { useT } from '@/components/i18n/language-provider';
 
@@ -14,6 +16,24 @@ export function CompareInvite({ repo }: { repo: string }) {
   const [value, setValue] = React.useState('');
   const [error, setError] = React.useState(false);
   const [pending, startTransition] = React.useTransition();
+  const [chips, setChips] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    const recent = getRecent();
+    const combined = [
+      ...QUICK_PICKS,
+      ...recent.filter((r) => !QUICK_PICKS.includes(r)),
+    ]
+      .filter((r) => r.toLowerCase() !== repo.toLowerCase())
+      .slice(0, 5);
+    setChips(combined);
+  }, [repo]);
+
+  function battle(opponent: string) {
+    startTransition(() => {
+      router.push(`/analyze?repo=${repo}&vs=${opponent}`);
+    });
+  }
 
   function go(e: React.FormEvent) {
     e.preventDefault();
@@ -23,9 +43,7 @@ export function CompareInvite({ repo }: { repo: string }) {
       return;
     }
     setError(false);
-    startTransition(() => {
-      router.push(`/analyze?repo=${repo}&vs=${ref.owner}/${ref.repo}`);
-    });
+    battle(`${ref.owner}/${ref.repo}`);
   }
 
   return (
@@ -57,6 +75,25 @@ export function CompareInvite({ repo }: { repo: string }) {
       </form>
       {error && (
         <p className="mt-2 font-mono text-xs text-oxblood">{t.compare.error}</p>
+      )}
+      {chips.length > 0 && (
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <span className="font-mono text-xs text-muted-foreground">
+            {t.compare.or}:
+          </span>
+          {chips.map((slug) => (
+            <button
+              key={slug}
+              type="button"
+              disabled={pending}
+              onClick={() => battle(slug)}
+              className="inline-flex items-center gap-1 rounded-full border border-border bg-card/50 px-2.5 py-0.5 font-mono text-xs text-muted-foreground transition-colors hover:border-gold/40 hover:text-foreground disabled:opacity-40"
+            >
+              <Swords className="h-3 w-3" />
+              {slug}
+            </button>
+          ))}
+        </div>
       )}
     </div>
   );

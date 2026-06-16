@@ -193,6 +193,7 @@ const en = {
     placeholder: 'owner/repo to challenge',
     cta: 'Battle',
     error: 'Enter a valid GitHub URL or owner/repo.',
+    or: 'or challenge',
   },
   battle: {
     eyebrow: 'Repo battle',
@@ -225,6 +226,13 @@ const en = {
   recent: {
     title: 'Recently read',
     clear: 'Clear history',
+  },
+  trending: {
+    eyebrow: 'Active this week',
+    title: 'Repositories making moves',
+    subtitle: 'High-activity public repositories pulled live from GitHub. Click one to read its lore.',
+    cta: 'Read the lore',
+    stars: 'stars',
   },
   exportMd: {
     overview: 'Overview',
@@ -271,6 +279,8 @@ const en = {
       scifi: 'Science Fiction',
       corporate: 'Corporate Report',
       meme: 'Meme Style',
+      noir: 'Noir Detective',
+      news: 'Breaking News',
     },
     blurbs: {
       documentary: 'The chronicle as it truly happened — measured, unembellished.',
@@ -278,6 +288,8 @@ const en = {
       scifi: "A starfarer's saga of ship logs and signals from the deep.",
       corporate: 'A boardroom epic of KPIs, synergy, and quarterly glory.',
       meme: 'The lore gone feral — extremely online, zero chill.',
+      noir: 'A hard-boiled case file. Rain-slicked commits and shadowed pull requests.',
+      news: 'Live from the dev desk — fast-moving developments, back to you in the studio.',
     },
     reasons: {
       invalid_api_key: 'AI key is invalid — showing the original.',
@@ -564,6 +576,7 @@ const th: Dictionary = {
     placeholder: 'owner/repo ที่จะท้าดวล',
     cta: 'ดวล',
     error: 'กรุณาใส่ URL ของ GitHub หรือ owner/repo ที่ถูกต้อง',
+    or: 'หรือท้า',
   },
   battle: {
     eyebrow: 'ดวล repo',
@@ -596,6 +609,13 @@ const th: Dictionary = {
   recent: {
     title: 'ดูล่าสุด',
     clear: 'ล้างประวัติ',
+  },
+  trending: {
+    eyebrow: 'ขยับสัปดาห์นี้',
+    title: 'Repository ที่กำลังเคลื่อนไหว',
+    subtitle: 'Repository สาธารณะที่มีกิจกรรมสูงดึงสดจาก GitHub คลิกเพื่ออ่านตำนาน',
+    cta: 'อ่านตำนาน',
+    stars: 'stars',
   },
   exportMd: {
     overview: 'ภาพรวม',
@@ -642,6 +662,8 @@ const th: Dictionary = {
       scifi: 'ไซไฟ',
       corporate: 'รายงานองค์กร',
       meme: 'สไตล์มีม',
+      noir: 'นักสืบนัวร์',
+      news: 'ข่าวด่วน',
     },
     blurbs: {
       documentary: 'พงศาวดารตามจริงทุกถ้อยคำ หนักแน่น ไม่ปรุงแต่ง',
@@ -649,6 +671,8 @@ const th: Dictionary = {
       scifi: 'มหากาพย์นักเดินดาว บันทึกยาน และสัญญาณจากห้วงลึก',
       corporate: 'มหากาพย์ห้องประชุม KPI synergy และความรุ่งโรจน์รายไตรมาส',
       meme: 'ตำนานหลุดโลก ออนไลน์จัด ไม่มีเบรก',
+      noir: 'แฟ้มคดีสไตล์ฮาร์ดบอยล์ commit เปื้อนฝน pull request ซ่อนเงา',
+      news: 'สดจากโต๊ะข่าว — พัฒนาการรวดเร็ว กลับมาหาคุณที่สตูดิโอ',
     },
     reasons: {
       invalid_api_key: 'AI key ไม่ถูกต้อง — แสดงต้นฉบับ',

@@ -270,12 +270,108 @@ const meme: ModeVoice = {
   ],
 };
 
+// ---------------------------------------------------------------------------
+// 6. NOIR DETECTIVE
+// ---------------------------------------------------------------------------
+
+const noir: ModeVoice = {
+  meta: {
+    id: 'noir',
+    label: 'Noir Detective',
+    blurb: 'A hard-boiled case file. Rain-slicked commits and shadowed pull requests.',
+    icon: 'Search',
+  },
+  title: (f) => `The ${f.name} File`,
+  logline: (f) =>
+    `A PI's account of ${f.name} — ${f.ageLabel} of leads, *${f.stars}* cold tips and ${f.contributorsLabel} persons of interest.`,
+  chapters: (f) => [
+    ch(1, 'The Case Opens', `${f.createdYear} — a dark and stormy repo`, [
+      `${f.createdYear}. The repo walked into my office${f.language !== 'code' ? `, reeking of ${f.language}` : ''}. *${f.owner}* was the name on the file. ${f.description ? `Said they were trying to ${sentence(f.description)}.` : "Wouldn't say much. Never do."} I'd seen the type before.`,
+      `The codebase was built from ${nameList(f.topLangs)}. Modest at first — a few files, a few secrets. ${f.ageLabel} later it'd have *${f.stars}* stars and ${f.contributorsLabel} names in the ledger. Something smelled.`,
+    ]),
+    ch(2, 'The Foundation Rap Sheet', 'Early evidence', [
+      `${f.architect ? `*${f.architect}* did most of the heavy lifting in those early days. More commits than anyone. Fingers in every corner. ` : 'The early work was clean. Methodical. No fingerprints worth finding. '}${f.firstRelease ? `First tagged release: *${f.firstRelease}*. The moment someone decided the thing was ready to be trusted.` : 'No tagged releases. They wanted it off the books.'}`,
+      `${f.releaseCount > 1 ? `${f.releaseCount} releases in all${f.cadenceDays ? `, one every ${f.cadenceDays} days on average — like clockwork` : ''}. ` : ''}The architecture held. Whatever they were building, they built it to last.`,
+      f.releaseCount > 0
+        ? `${f.reachedStable ? `Hit 1.0${f.latestRelease ? ` — running as *${f.latestRelease}* now` : ''}. Stable. Official. Above board.` : 'Still pre-1.0. The interface stays flexible. Could change at any time. Slippery.'}`
+        : '',
+    ]),
+    ch(3, 'The Trail Goes Hot', 'Acceleration', [
+      `Then things moved fast. ${f.busiestMonth ? `${f.busiestMonth} — the hottest stretch on record.` : 'The commits wouldn\'t stop.'} About ${f.commitsPerWeek} a week. Someone was in a hurry. The star count hit *${f.stars}* and kept climbing.`,
+      `${f.featureBuilder ? `*${f.featureBuilder}* was pushing new angles${f.bugHunter ? `, while *${f.bugHunter}* was mopping up the mess` : ''}. ` : 'New angles, new angles — always new angles. '}Innovation score: ${f.scores['Innovation']}. Growth: ${f.scores['Growth']}. The numbers don't lie.`,
+      f.commitsPerWeek > 0
+        ? `The pace was ${f.rhythmTrend}${f.weekendPct > 0 ? ` — ${f.weekendPct}% of the work happened on weekends. These people had no life. Good detectives never do` : ''}.`
+        : '',
+    ]),
+    ch(4, 'The Usual Suspects', `${f.contributorsLabel} persons of interest`, [
+      `${f.contributorsLabel} contributors in the file. The top ${f.busFactor} carried more than half the load — they always do. *${f.forks}* forks out in the dark, each one a copy of the evidence trail.`,
+      `${f.champion ? `*${f.champion}* kept the community talking. Useful. Dangerous. ` : ''}${f.maintainer ? `*${f.maintainer}* kept the pipes from bursting — dependencies patched, the CI green. The kind of work nobody notices until it stops. ` : ''}Community score: ${f.scores['Community']}. Tight enough.`,
+      f.mergeRatePct != null
+        ? `${f.mergeRatePct}% of pull requests made it through${f.mergeLatencyLabel ? ` — median turnaround ${f.mergeLatencyLabel}` : ''}. A tight review process. Somebody was watching the door.`
+        : '',
+    ]),
+    ch(5, 'Case Status', f.maturityStage, [
+      `Current status: *${f.maturityStage}*. ${f.maturitySummary} ${f.archived ? 'The repo has been archived. The case is cold.' : `Last commit: ${f.daysSincePush < 1 ? 'today. Still active.' : `${f.daysSincePush} days ago. Getting colder.`}`}`,
+      `${f.latestRelease ? `Latest release on file: *${f.latestRelease}*. ` : ''}After ${f.ageLabel}, the dossier reads ${f.stars} stars and ${f.contributorsLabel} names. I've closed worse cases${f.archived ? '.' : ' — but this one isn\'t closed yet.'}`,
+    ]),
+  ],
+};
+
+// ---------------------------------------------------------------------------
+// 7. BREAKING NEWS
+// ---------------------------------------------------------------------------
+
+const news: ModeVoice = {
+  meta: {
+    id: 'news',
+    label: 'Breaking News',
+    blurb: 'Live from the dev desk — fast-moving developments, back to you in the studio.',
+    icon: 'Newspaper',
+  },
+  title: (f) => `BREAKING: ${f.name} — Full Coverage`,
+  logline: (f) =>
+    `Live desk coverage of the ${f.name} story. ${f.ageLabel} of developments, *${f.stars}* community signals and ${f.contributorsLabel} sources confirmed.`,
+  chapters: (f) => [
+    ch(1, 'Developing Story', `Breaking — ${f.createdYear}`, [
+      `BREAKING: We're getting reports out of ${f.createdYear} that *${f.owner}* has launched a new repository${f.language !== 'code' ? `, built entirely in ${f.language}` : ''}. ${f.description ? `Sources confirm the stated mission: to ${sentence(f.description)}.` : 'Officials have not yet released details on the scope of the initiative.'} We will continue to follow this story.`,
+      `Early intelligence suggests the project is written in ${nameList(f.topLangs)}. Analysts are projecting *${f.stars}* stars and ${f.contributorsLabel} contributors over the next ${f.ageLabel}. Extraordinary, if confirmed. Back to you.`,
+    ]),
+    ch(2, 'Confirmed: First Release', 'Field report', [
+      `We go now to our infrastructure correspondent. ${f.architect ? `*${f.architect}* has reportedly been on the ground since day one, logging more commits than any other source — we're told the core architecture bears their fingerprint. ` : 'Our field team confirms the foundational work has been laid. '}${f.firstRelease ? `CONFIRMED: version *${f.firstRelease}* has been tagged and released — the repo's first public milestone.` : 'No formal release has been tagged at this point — officials are keeping the version fluid.'}`,
+      `${f.releaseCount > 1 ? `We can now confirm a total of ${f.releaseCount} releases${f.cadenceDays ? `, with an average cadence of ${f.cadenceDays} days between drops` : ''}. ` : ''}The project's infrastructure appears stable. We'll bring you updates as they come.`,
+      f.releaseCount > 0
+        ? `${f.reachedStable ? `Version 1.0 has been reached${f.latestRelease ? ` — the project is now running *${f.latestRelease}*` : ''}. A stable public API has been declared.` : 'The project remains pre-1.0. No stable API commitment has been made at this time.'}`
+        : '',
+    ]),
+    ch(3, 'ALERT: Rapid Growth', 'This just in', [
+      `We interrupt this broadcast with a development alert. ${f.busiestMonth ? `Activity readings from ${f.busiestMonth} are unprecedented — our analysts are calling it the busiest period on record.` : 'Commit volume has surged to extraordinary levels.'} We're tracking approximately ${f.commitsPerWeek} commits per week as the project crosses *${f.stars}* stars.`,
+      `${f.featureBuilder ? `Our source *${f.featureBuilder}* has been identified as a key figure in the feature push${f.bugHunter ? `, with *${f.bugHunter}* confirmed as lead on defect remediation` : ''}. ` : 'Unconfirmed reports of rapid feature development are coming in. '}Innovation index: ${f.scores['Innovation']}. Growth index: ${f.scores['Growth']}. These are significant numbers.`,
+      f.commitsPerWeek > 0
+        ? `Our data desk confirms the velocity trend is ${f.rhythmTrend}${f.weekendPct > 0 ? `. Notably, ${f.weekendPct}% of recent commits originated over the weekend — our correspondents say they've never seen anything quite like it` : ''}.`
+        : '',
+    ]),
+    ch(4, 'Community Response', `${f.contributorsLabel} sources`, [
+      `We're now hearing from ${f.contributorsLabel} confirmed contributors. Our reporters on the ground note that the top ${f.busFactor} accounts for over half of all output. *${f.forks}* derivative projects have been independently verified — the story is spreading.`,
+      `${f.champion ? `*${f.champion}* has been a key liaison between the project and external stakeholders. ` : ''}${f.maintainer ? `*${f.maintainer}* continues to manage dependencies and keep the delivery pipeline operational. ` : ''}Community engagement reads ${f.scores['Community']} — above average, our experts say.`,
+      f.mergeRatePct != null
+        ? `Of all incoming pull requests, ${f.mergeRatePct}% have been accepted${f.mergeLatencyLabel ? ` with a median response time of ${f.mergeLatencyLabel}` : ''}. This is a story of openness and accountability.`
+        : '',
+    ]),
+    ch(5, 'Live Update', f.maturityStage, [
+      `We can now report the project's current status as: *${f.maturityStage}*. ${f.maturitySummary} ${f.archived ? 'Officials confirm the repository has been archived. This chapter of the story is closed.' : `The most recent activity was logged ${f.daysSincePush < 1 ? 'today — this is a live situation' : `${f.daysSincePush} days ago`}.`}`,
+      `${f.latestRelease ? `The latest confirmed release is *${f.latestRelease}*. ` : ''}After ${f.ageLabel} of coverage, the ${f.name} story stands at *${f.stars}* stars and ${f.contributorsLabel} contributors${f.archived ? '. We thank you for watching.' : '. We will continue to monitor developments. Stay with us.'}`,
+    ]),
+  ],
+};
+
 export const MODES: Record<NarrativeMode, ModeVoice> = {
   documentary,
   fantasy,
   scifi,
   corporate,
   meme,
+  noir,
+  news,
 };
 
 export const MODE_LIST: ModeMeta[] = [
@@ -284,4 +380,6 @@ export const MODE_LIST: ModeMeta[] = [
   scifi.meta,
   corporate.meta,
   meme.meta,
+  noir.meta,
+  news.meta,
 ];

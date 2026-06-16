@@ -15,6 +15,15 @@ import { parseRepoInput, type RepoRef } from '@/lib/parse-repo';
 
 export { parseRepoInput, type RepoRef } from '@/lib/parse-repo';
 
+export interface TrendingRepo {
+  slug: string;
+  owner: string;
+  name: string;
+  description: string | null;
+  language: string | null;
+  stars: number;
+}
+
 const API = 'https://api.github.com';
 
 /** Error carrying a code that maps cleanly onto the API/UI error contract. */
@@ -128,6 +137,37 @@ async function gh<T>(path: string, opts: FetchOptions = {}): Promise<T | null> {
 // ---------------------------------------------------------------------------
 
 const PER_PAGE = 100;
+
+export async function fetchTrendingRepos(limit = 6): Promise<TrendingRepo[]> {
+  const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .slice(0, 10);
+  const q = encodeURIComponent(`stars:>1000 pushed:>${since}`);
+  type SearchResult = {
+    items: Array<{
+      full_name: string;
+      owner: { login: string };
+      name: string;
+      description: string | null;
+      language: string | null;
+      stargazers_count: number;
+    }>;
+  };
+  const data = await gh<SearchResult>(
+    `/search/repositories?q=${q}&sort=stars&order=desc&per_page=${limit}`,
+    { revalidate: 21600 },
+  ).catch(() => null);
+
+  if (!data?.items?.length) return [];
+  return data.items.map((r) => ({
+    slug: r.full_name,
+    owner: r.owner.login,
+    name: r.name,
+    description: r.description,
+    language: r.language,
+    stars: r.stargazers_count,
+  }));
+}
 
 export async function fetchRepoData(ref: RepoRef): Promise<RepoDataBundle> {
   const base = `/repos/${ref.owner}/${ref.repo}`;
