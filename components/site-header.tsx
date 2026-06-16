@@ -8,6 +8,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { LanguageToggle } from '@/components/i18n/language-toggle';
 import { useT } from '@/components/i18n/language-provider';
 import { Logo, Wordmark } from '@/components/logo';
+import { cn } from '@/lib/utils';
 
 export function SiteHeader() {
   const t = useT();
@@ -57,7 +58,10 @@ export function SiteHeader() {
           <ThemeToggle />
           <Link
             href="/#try"
-            className={buttonVariants({ variant: 'foil', size: 'sm' })}
+            className={cn(
+              buttonVariants({ variant: 'foil', size: 'sm' }),
+              'hidden sm:inline-flex',
+            )}
           >
             {t.nav.readRepo}
           </Link>

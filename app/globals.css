@@ -9,34 +9,34 @@
 
 @layer base {
   :root {
-    /* ---- Light: Parchment ---- */
-    --background: 40 44% 93%;
+    /* ---- Light: Parchment (warm off-white, eased off the cream band) ---- */
+    --background: 40 24% 94%;
     --foreground: 28 26% 15%;
 
-    --card: 40 48% 96%;
+    --card: 40 28% 97%;
     --card-foreground: 28 26% 15%;
 
-    --muted: 38 30% 87%;
-    --muted-foreground: 30 14% 38%;
+    --muted: 38 16% 89%;
+    --muted-foreground: 30 16% 36%;
 
-    --primary: 32 68% 40%;
+    --primary: 32 68% 34%;
     --primary-foreground: 40 50% 97%;
 
-    --secondary: 38 32% 88%;
+    --secondary: 38 18% 90%;
     --secondary-foreground: 28 28% 20%;
 
-    --accent: 36 60% 50%;
+    --accent: 36 60% 46%;
     --accent-foreground: 30 30% 12%;
 
-    --border: 34 26% 78%;
-    --input: 34 26% 78%;
-    --ring: 32 68% 44%;
+    --border: 34 18% 80%;
+    --input: 34 18% 80%;
+    --ring: 32 68% 40%;
 
-    --gold: 34 72% 42%;
+    --gold: 34 72% 34%;
     --oxblood: 2 62% 42%;
     --verdigris: 172 42% 30%;
     --ink: 28 26% 15%;
-    --parchment: 40 44% 93%;
+    --parchment: 40 24% 94%;
 
     --radius: 0.5rem;
 
@@ -93,6 +93,7 @@
       'kern' 1,
       'liga' 1,
       'calt' 1;
+    font-optical-sizing: auto;
     text-rendering: optimizeLegibility;
     background-image:
       radial-gradient(
@@ -108,12 +109,15 @@
     background-attachment: fixed;
   }
 
-  /* Fine film-grain / paper texture overlay */
+  /* Fine film-grain / paper texture overlay.
+     z-index scale: content 0–40 · sticky header 50 · grain 60 ·
+     (future) dropdown 70 · modal 80 · toast 90. Grain sits above the page
+     and header for uniform texture; keep interactive overlays above it. */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    z-index: 9999;
+    z-index: 60;
     pointer-events: none;
     opacity: var(--grain-opacity);
     mix-blend-mode: soft-light;
@@ -162,23 +166,11 @@
     );
   }
 
-  /* Gold foil gradient text */
-  .text-foil {
-    background: linear-gradient(
-      100deg,
-      hsl(var(--gold)) 0%,
-      hsl(var(--foreground)) 45%,
-      hsl(var(--gold)) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-
-  /* Eyebrow / small-caps label */
+  /* Kicker — a small italic display label, the brand's deliberate manuscript
+     voice in place of the tracked-uppercase eyebrow tell. Inline-safe so it
+     works as a section opener, a footer heading, or inline microcopy alike. */
   .eyebrow {
-    @apply font-mono text-xs uppercase tracking-[0.28em] text-muted-foreground;
+    @apply font-display text-sm italic text-gold;
   }
 
   /* Card with manuscript inner stroke */

@@ -1,11 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { cookies } from 'next/headers';
-import {
-  Fraunces,
-  Newsreader,
-  Hanken_Grotesk,
-  JetBrains_Mono,
-} from 'next/font/google';
+import { Fraunces, Hanken_Grotesk, JetBrains_Mono } from 'next/font/google';
 
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -18,13 +13,6 @@ import { SiteFooter } from '@/components/site-footer';
 const display = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
-  display: 'swap',
-  style: ['normal', 'italic'],
-});
-
-const prose = Newsreader({
-  subsets: ['latin'],
-  variable: '--font-prose',
   display: 'swap',
   style: ['normal', 'italic'],
 });
@@ -78,7 +66,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#efe6d3' },
+    { media: '(prefers-color-scheme: light)', color: '#f3f1ec' },
     { media: '(prefers-color-scheme: dark)', color: '#15110c' },
   ],
 };
@@ -95,7 +83,6 @@ export default async function RootLayout({
       <body
         className={cn(
           display.variable,
-          prose.variable,
           sans.variable,
           mono.variable,
           'min-h-dvh font-sans',

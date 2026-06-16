@@ -43,7 +43,7 @@ export function Hero() {
 
         <h1 className="mt-7 max-w-4xl text-balance font-display text-5xl font-semibold leading-[1.04] tracking-tight animate-fade-up [animation-delay:80ms] sm:text-6xl md:text-7xl">
           {t.hero.titleBefore}{' '}
-          <em className="text-foil not-italic">{t.hero.titleHighlight}</em>.
+          <em className="not-italic text-gold">{t.hero.titleHighlight}</em>.
         </h1>
 
         <p className="mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground animate-fade-up [animation-delay:160ms]">

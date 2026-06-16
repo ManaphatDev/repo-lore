@@ -34,10 +34,10 @@ export function Examples() {
 
         <div className="mt-14 grid gap-6 md:grid-cols-3">
           {EXAMPLE_REPOS.map((repo, i) => (
-            <Reveal key={repo.slug} delay={i * 90} className="flex">
+            <Reveal key={repo.slug} delay={i * 90} className="flex min-w-0">
             <Link
               href={`/analyze?repo=${repo.slug}`}
-              className="hover-lift group relative flex flex-1 flex-col overflow-hidden rounded-xl border border-border bg-card/60 p-7"
+              className="hover-lift group relative flex min-w-0 flex-1 flex-col overflow-hidden rounded-xl border border-border bg-card/60 p-7"
             >
               <div
                 className={cn(

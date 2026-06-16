@@ -22,9 +22,9 @@ export function LanguageToggle({ className }: { className?: string }) {
           onClick={() => setLang(l)}
           aria-pressed={lang === l}
           className={cn(
-            'rounded-full px-2.5 py-1 transition-colors',
+            'rounded-full px-3 py-1.5 transition-colors',
             lang === l
-              ? 'bg-gold/15 text-gold'
+              ? 'bg-gold/20 font-medium text-foreground'
               : 'text-muted-foreground hover:text-foreground',
           )}
         >

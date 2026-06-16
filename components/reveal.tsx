@@ -5,8 +5,13 @@ import { cn } from '@/lib/utils';
 
 /**
  * Reveals its children with a fade-rise-and-settle once they scroll into view.
- * Fires once, then disconnects. Honours `prefers-reduced-motion` (shows
- * immediately) and degrades to visible if IntersectionObserver is missing.
+ *
+ * Visible by default. The content renders fully visible during SSR, before
+ * hydration, with JS disabled, and under `prefers-reduced-motion` — so a
+ * section never ships blank if the observer never runs. The entrance plays
+ * only for content that loads *below* the fold: it is hidden (off-screen, so
+ * invisible to the user) then animated in as it scrolls into view. Content
+ * already in view on load stays put without an entrance.
  *
  * Pass `stagger` (ms between items) to cascade the *direct children* one-by-one
  * instead of animating the wrapper as one block. The children stay direct DOM
@@ -14,6 +19,8 @@ import { cn } from '@/lib/utils';
  * grid keep working. Staggered children animate via the `reveal` keyframe so it
  * never clashes with their own `transition-*` hover styles.
  */
+type Phase = 'idle' | 'armed' | 'reveal';
+
 export function Reveal({
   children,
   className,
@@ -26,7 +33,8 @@ export function Reveal({
   stagger?: number;
 }) {
   const ref = React.useRef<HTMLDivElement>(null);
-  const [shown, setShown] = React.useState(false);
+  // 'idle' = visible (the default everywhere JS can't confirm otherwise).
+  const [phase, setPhase] = React.useState<Phase>('idle');
 
   React.useEffect(() => {
     const el = ref.current;
@@ -36,15 +44,18 @@ export function Reveal({
       typeof IntersectionObserver === 'undefined' ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
     ) {
-      setShown(true);
-      return;
+      return; // stay visible, no entrance
     }
 
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting) {
-          setShown(true);
+          // Armed (was below the fold) -> play the entrance. Already visible
+          // on load -> stay idle, no entrance, no flicker.
+          setPhase((p) => (p === 'armed' ? 'reveal' : 'idle'));
           io.disconnect();
+        } else {
+          setPhase('armed');
         }
       },
       { rootMargin: '0px 0px -12% 0px', threshold: 0.05 },
@@ -62,15 +73,22 @@ export function Reveal({
             className?: string;
             style?: React.CSSProperties;
           }>;
+          const childClass =
+            phase === 'armed'
+              ? 'opacity-0'
+              : phase === 'reveal'
+                ? 'animate-reveal'
+                : 'opacity-100';
           return React.cloneElement(el, {
             className: cn(
               'motion-reduce:!animate-none motion-reduce:!opacity-100',
-              shown ? 'animate-reveal' : 'opacity-0',
+              childClass,
               el.props.className,
             ),
             style: {
               ...el.props.style,
-              animationDelay: shown ? `${delay + i * stagger}ms` : undefined,
+              animationDelay:
+                phase === 'reveal' ? `${delay + i * stagger}ms` : undefined,
             },
           });
         })}
@@ -84,9 +102,9 @@ export function Reveal({
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
       className={cn(
         'transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none',
-        shown
-          ? 'translate-y-0 scale-100 opacity-100'
-          : 'translate-y-5 scale-[0.98] opacity-0',
+        phase === 'armed'
+          ? 'translate-y-5 scale-[0.98] opacity-0'
+          : 'translate-y-0 scale-100 opacity-100',
         className,
       )}
     >
